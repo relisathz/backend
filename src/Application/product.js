@@ -77,11 +77,16 @@ const products = [
 
 export const getProducts = (req, res) =>  res.status(200).json(products).send()
 
-export const createProduct = (req, res) => {
-    products.push(req.body);
-    res.status(201).send() 
-}
+// export const createProduct = (req, res) => {
+//     const newProduct=req.body
+//     res.status(201).json(newProduct).send() 
+// }
+// 
+export const createProduct=(req,res)=>{
+products.push(req.body);
+res.status(201).send()
 
+}
 export const getProduct = (req, res) => {
     const id  = req.params.id
     const product = products.find((pro) => pro.id == id);
@@ -100,6 +105,7 @@ export const deleteProduct = (req, res) => {
     res.status(204).send()
 
 }
+
 
 export const updateProduct = (req, res) => {
 
