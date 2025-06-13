@@ -1,32 +1,28 @@
+
 import express from 'express';
-// const express = require('express');
+
 const app = express();
-import { getProducts,createProduct,getProduct,deleteProduct,updateProduct} from './Application/product.js';
-// import { getProduct4 } from './api/product.js';
+import { productRouter } from './api/product.js';
 
-app.use(express.json()); // For parsing JSON requests
+app.use(express.json()); // For parsing JSON 
+//middle ware function between serverpoint and productrouter
+app.use ((req,res,next) => {
+console.log("request received");
+console.log(req.method,req.url);
+next();
 
-// const sendHello = (req, res) => res.send('Hello world!')
-// app.get('/hello', sendHello);
-//product routering....it's in route product.js
 
- const productRouter=express.Router()
- productRouter.route('/').get(getProducts).post(createProduct)
-//router define
-productRouter.route('/:id').get(getProduct).delete(deleteProduct).patch(updateProduct)
-//import { productRouter } from './Route/product.js';
-app.use('/products',productRouter) 
+});
 
-// app.get('/products',getProducts)
-// app.post('/products',createProduct)
+app.use('/products', productRouter)
+//middleware function can add to this one also.it mean between productrouter and handler.only one can apply
+//app.use ((req,res,next) => {
+//console.log("request received");
+//console.log(req.method,req.url);
+//next();
 
-//app.get('/product/:id',getProduct)
 
-//delete
-//app.delete('/product/:id',deleteProduct)
+//});
 
-//app.patch('/product/:id',updateProduct)
-
-//  app.delete('/product/:id',deleteProducts4)
 
 app.listen(8000, () => console.log(`Server running on port ${8000}`));

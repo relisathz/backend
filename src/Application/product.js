@@ -75,8 +75,11 @@ const products = [
   ];
 
 
-export const getProducts = (req, res) =>  res.status(200).json(products).send()
+export const getProducts = (req, res) => {
 
+
+   return res.status(200).json(products).send()
+}
 // export const createProduct = (req, res) => {
 //     const newProduct=req.body
 //     res.status(201).json(newProduct).send() 
@@ -84,31 +87,45 @@ export const getProducts = (req, res) =>  res.status(200).json(products).send()
 // 
 export const createProduct=(req,res)=>{
 products.push(req.body);
-res.status(201).send()
+return res.status(201).send()
 
 }
 export const getProduct = (req, res) => {
     const id  = req.params.id
     const product = products.find((pro) => pro.id == id);
-
-    res.status(200).json(product).send()
+if(!product){
+  return res.status(404).send();
 }
+    return res.status(200).json(product).send()
+};
 
 export const deleteProduct = (req, res) => {
     const id = req.params.id;
     const index = products.findIndex((pro) => pro.id == id);
 
-    if(index !== -1) {
+    if(index == -1) {
+      return res.status(404).send()}{
+
         products.splice(index,1)
     }
 
-    res.status(204).send()
+    return res.status(204).send()
 
 }
 
 
 export const updateProduct = (req, res) => {
+  const id=req.params.id
+  const product=products.indexOf((pro)=>pro.id==id)
+if(!product){
+  //known error.it mean someone click 67 id number.there is no.so can apply this
+  return  res.status(404).send()
+}
+product.name=req.body.name;
+product.price=req.body.price;
+product.description=req.body.description;
+product.image=req.body.image;
 
 
-    res.status(200).send()
+    return res.status(200).send()
 }
